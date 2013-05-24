@@ -9,8 +9,3 @@ dependencies {
 
 mainClassName = 'org.opendolphin.swingexample.ApplicationInMemoryStarter'
 
-gradle.taskGraph.whenReady { tg ->
-	if (tg.hasTask(':runWithGroovy')) {
-		project.setProperty('mainClassName', 'org.opendolphin.swingexample.start')
-	}
-}

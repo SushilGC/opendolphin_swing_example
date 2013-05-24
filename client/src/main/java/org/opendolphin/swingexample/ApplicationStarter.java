@@ -1,25 +1,31 @@
 package org.opendolphin.swingexample;
 
-import javafx.application.Application;
 import org.opendolphin.core.client.ClientDolphin;
 import org.opendolphin.core.client.ClientModelStore;
 import org.opendolphin.core.client.comm.ClientConnector;
 import org.opendolphin.core.client.comm.HttpClientConnector;
-import org.opendolphin.core.client.comm.JavaFXUiThreadHandler;
 import org.opendolphin.core.comm.JsonCodec;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class ApplicationStarter {
     public static void main(String[] args) {
-        ClientDolphin clientDolphin = new ClientDolphin();
+        final ClientDolphin clientDolphin = new ClientDolphin();
         clientDolphin.setClientModelStore(new ClientModelStore(clientDolphin));
 
         ClientConnector connector = createConnector(clientDolphin);
-        connector.setUiThreadHandler(new JavaFXUiThreadHandler());
+        connector.setUiThreadHandler(new SwingUiThreadHandler());
         clientDolphin.setClientConnector(connector);
 
 
-        org.opendolphin.swingexample.Application.clientDolphin = clientDolphin;
-        Application.launch(org.opendolphin.swingexample.Application.class);
+		Runnable runnable = new Runnable() {
+			public void run() {
+				JFrame frame = new ApplicationFrame(clientDolphin).newComponent();
+
+			}
+		};
+		EventQueue.invokeLater(runnable);
     }
 
     private static ClientConnector createConnector(ClientDolphin clientDolphin) {

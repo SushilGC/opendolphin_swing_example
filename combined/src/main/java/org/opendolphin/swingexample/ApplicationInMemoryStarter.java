@@ -1,16 +1,25 @@
 package org.opendolphin.swingexample;
 
-import org.opendolphin.core.client.comm.JavaFXUiThreadHandler;
 import org.opendolphin.core.comm.DefaultInMemoryConfig;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class ApplicationInMemoryStarter {
+
     public static void main(String[] args) throws Exception {
-        DefaultInMemoryConfig config = new DefaultInMemoryConfig();
+        final DefaultInMemoryConfig config = new DefaultInMemoryConfig();
         config.registerDefaultActions();
-        config.getClientDolphin().getClientConnector().setUiThreadHandler(new JavaFXUiThreadHandler());
+        config.getClientDolphin().getClientConnector().setUiThreadHandler(new SwingUiThreadHandler());
         registerApplicationActions(config);
-        org.opendolphin.swingexample.Application.clientDolphin = config.getClientDolphin();
-        javafx.application.Application.launch(org.opendolphin.swingexample.Application.class);
+
+		Runnable runnable = new Runnable() {
+			public void run() {
+				JFrame frame = new ApplicationFrame(config.getClientDolphin()).newComponent();
+
+			}
+		};
+		EventQueue.invokeLater(runnable);
     }
 
     private static void registerApplicationActions(DefaultInMemoryConfig config) {
