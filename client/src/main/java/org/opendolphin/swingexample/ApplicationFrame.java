@@ -1,5 +1,6 @@
 package org.opendolphin.swingexample;
 
+import net.miginfocom.swing.MigLayout;
 import org.opendolphin.core.client.ClientDolphin;
 
 import javax.swing.*;
@@ -16,8 +17,20 @@ public class ApplicationFrame {
 	}
 
 	public JFrame newComponent() {
-		JFrame result = new JFrame("Hello Swing");
+
+		JFrame result = new JFrame("OpenDolphin Swing Example");
+
+		MigLayout ml = new MigLayout(
+			"insets 10, wrap",
+			"[fill][]"
+		);
+		result.setLayout(ml);
+
 		result.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JTextField tf = new JTextField("hello");
+		JLabel label = new JLabel("label");
+
 		JButton button = new JButton("Click Me");
 
 		ActionListener actionListener = new ActionListener() {
@@ -28,7 +41,9 @@ public class ApplicationFrame {
 
 		button.addActionListener(actionListener);
 
-		result.add(button, BorderLayout.SOUTH);
+		result.add(tf);
+		result.add(label);
+		result.add(button);
 		result.setSize(300, 100);
 		result.setVisible(true);
 		return result;
