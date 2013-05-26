@@ -16,7 +16,9 @@ import org.opendolphin.core.client.ClientAttribute
 import org.opendolphin.core.client.ClientPresentationModel
 
 import javax.swing.JComponent
-import javax.swing.JTextField
+import javax.swing.text.JTextComponent
+import java.awt.event.KeyAdapter
+import java.awt.event.KeyEvent
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
 
@@ -185,10 +187,22 @@ class SwingBindOtherOfAble {
 
 	void of(Object target, Closure converter = null) {
 		def listener = new SwingBinderChangeListener(source, sourcePropertyName, target, targetPropertyName, converter)
-		source.addPropertyChangeListener(sourcePropertyName, listener)
-		listener.update() // set the initial value after the binding and trigger the first notification
+		if (source instanceof JTextComponent) {
+			JTextComponent tc = source;
+			tc.addKeyListener(new KeyAdapter() {
+				@Override
+				void keyReleased(final KeyEvent e) {
+					listener.update()
+				}
+			})
+		}
+		else {
+			source.addPropertyChangeListener(sourcePropertyName, listener)
+//!!			listener.update() // set the initial value after the binding and trigger the first notification
+		}
 	}
 }
+
 
 class BindClientOtherOfAble {
 	final ClientAttribute attribute
@@ -202,7 +216,7 @@ class BindClientOtherOfAble {
 	void of(Object target, Closure converter = null) {
 		def listener = new SwingBinderPropertyChangeListener(attribute, target, targetPropertyName, converter)
 		attribute.addPropertyChangeListener('value', listener)
-		listener.update() // set the initial value after the binding and trigger the first notification
+//!!		listener.update() // set the initial value after the binding and trigger the first notification
 	}
 }
 
