@@ -1,6 +1,7 @@
 package org.opendolphin.swingexample;
 
 import net.miginfocom.swing.MigLayout;
+import org.opendolphin.binding.Binder;
 import org.opendolphin.core.client.ClientDolphin;
 import org.opendolphin.core.client.ClientPresentationModel;
 
@@ -42,7 +43,6 @@ public class ApplicationFrame {
 			}
 		});
 
-
 		JButton setTfTextbutton = new JButton("blue -> TF");
 		setTfTextbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -50,10 +50,10 @@ public class ApplicationFrame {
 			}
 		});
 
-		SwingBinder.bind(COLOR).of(pm1).to("text").of(label);
+		Binder.bind(COLOR).of(pm1).to("text").of(label);
 
-		SwingBinder.bind("text").of(tf).to(COLOR).of(pm1);
-		SwingBinder.bind(COLOR).of(pm1).to("text").of(tf);
+		Binder.bind("text").of(tf).to(COLOR).of(pm1);
+		Binder.bind(COLOR).of(pm1).to("text").of(tf);
 
 		pm1.getAt(COLOR).setValue(YELLOW);
 
