@@ -33,7 +33,7 @@ public class ApplicationFrame {
 
 		result.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		final JTextField tf = new JTextField();
+		final JTextField tf = new CoolJTextField();
 		JLabel label = new JLabel("label");
 
 		JButton setPMbutton = new JButton("green -> PM");
